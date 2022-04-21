@@ -10,41 +10,37 @@ class Binder:
 
 
     def getPage(self, sesh, pageNum):
-        page = funKit.takeFromCloud(sesh, pageNum)
-        return page
-
+        return funKit.takeCloudJson(sesh, pageNum)
+        
 
     def translatePage(self, page):
-        pdPage = funKit.translate(page.json())
-        return pdPage
-
+        return funKit.translate(page)
+        
 
     def loadPage(self, page):
-        pageStatusCode = funKit.putToDatabase(page)
-        return pageStatusCode
+        return funKit.putToDatabase(page)
+        
 
-
-    def doPage(self, pageNum):
+    def doPage(self, sesh, pageNum):
         try:
-            with funKit.doSesh() as sesh:
-                page = self.getPage(sesh, pageNum)
-                pageTuples = self.translatePage(page)
-                code = self.loadPage(pageTuples)
+            self.loadPage(self.translatePage(self.getPage(sesh, pageNum)))
+            print(f'Page {pageNum}: OK')
         except (Exception, psycopg2.DatabaseError) as error:
             print("Error: %s" % error)
-        finally:
-            print(f'Page {pageNum}: OK')
-    
+            
     
     def work(self):
-        for num in range(1, self.pageAmount + 1):
-            self.doPage(num)
+        with funKit.doSesh() as sesh:
+            for pageNum in range(1, self.pageAmount + 1):
+                self.doPage(sesh, pageNum)
+
 
 if __name__ == "__main__":
     bind = Binder()
     try: 
         funKit.baseExecute(psq.DropTable)
         bind.work()
+        funKit.baseExecute(psq.DeleteDuplicates)
     except (Exception, psycopg2.DatabaseError) as error:
         print("Database Drop Error: %s" % error)
         sys.exit()
