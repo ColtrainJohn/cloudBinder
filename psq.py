@@ -22,7 +22,10 @@ CREATE TABLE table1 (
     pango VARCHAR (100), 
     parus VARCHAR (100),
     who VARCHAR (100),
-    whoLine VARCHAR (100)
+    whoLine VARCHAR (100),
+    year VARCHAR (100),
+    month VARCHAR (100),
+    week VARCHAR (100)
     );
 """
 pieChartLineageCounts = """
@@ -73,7 +76,10 @@ INSERT INTO
         pango,
         parus,
         who,
-        whoLine
+        whoLine,
+        year,
+        month,
+        week
     ) 
 VALUES %s"""
 InsertTable2 = """

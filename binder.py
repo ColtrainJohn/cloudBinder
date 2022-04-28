@@ -1,4 +1,5 @@
 import sys, funKit, config, requests, psycopg2, psq
+from tqdm import tqdm
 
 
 class Binder:
@@ -7,6 +8,7 @@ class Binder:
     """
     def __init__(self):
         self.volume, self.pageAmount = funKit.measureVolume()
+        print(f'Base volume: {self.volume}\nPage amount: {self.pageAmount}')
 
 
     def getPage(self, sesh, pageNum):
@@ -24,25 +26,27 @@ class Binder:
     def doPage(self, sesh, pageNum):
         try:
             self.loadPage(self.translatePage(self.getPage(sesh, pageNum)))
-            print(f'Page {pageNum}: OK')
         except (Exception, psycopg2.DatabaseError) as error:
             print("Error: %s" % error)
             
     
     def work(self):
         with funKit.doSesh() as sesh:
-            for pageNum in range(1, self.pageAmount + 1):
+            for pageNum in tqdm(range(1, self.pageAmount + 1)):
                 self.doPage(sesh, pageNum)
+        funKit.updateOthers()
 
 
 if __name__ == "__main__":
-    bind = Binder()
     try: 
+        bind = Binder()
         funKit.baseExecute(psq.DropTable)
         bind.work()
-        funKit.baseExecute(psq.DeleteDuplicates)
+        # funKit.baseExecute(psq.DeleteDuplicates)
     except (Exception, psycopg2.DatabaseError) as error:
         print("Database Drop Error: %s" % error)
         sys.exit()
-    funKit.checkBaseContant()
+    finally:
+        print("BINGO")
+        sys.exit()
 
