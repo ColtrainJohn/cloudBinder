@@ -28,6 +28,17 @@ CREATE TABLE table1 (
     week VARCHAR (100)
     );
 """
+CreateTable2 = """
+CREATE TABLE table2 (
+    wholine VARCHAR (100),
+    region VARCHAR (100), 
+    nseqline VARCHAR (100), 
+    percentage VARCHAR (100),
+    nseqall VARCHAR (100)
+);
+"""
+
+
 pieChartLineageCounts = """
 CREATE TABLE pieChartLineageCounts (
     who VARCHAR (100),
@@ -84,12 +95,22 @@ INSERT INTO
 VALUES %s"""
 InsertTable2 = """
 INSERT INTO 
-    pieChartLineageCounts (
-        who,
+    table2 (
         wholine,
-        ncount
+        region,
+        nseqline,
+        percentage,
+        nseqall
     ) 
 VALUES %s"""
+# InsertTable2 = """
+# INSERT INTO 
+#     pieChartLineageCounts (
+#         who,
+#         wholine,
+#         ncount
+#     ) 
+# VALUES %s"""
 InsertTableRegionWHO = """
 INSERT INTO 
     tableRegionWHO (
