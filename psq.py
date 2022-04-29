@@ -1,6 +1,8 @@
 ListTables = "SELECT relname FROM pg_class WHERE relkind='r' AND relname !~ '^(pg_|sql_)';"
 DropTable = "DELETE FROM maintable;"
 SelectAll = "SELECT * FROM maintable;"
+
+### /TABLE CREATION\ ###
 CreateTable = """
 CREATE TABLE maintable (
     vgarusId VARCHAR (100),
@@ -37,6 +39,21 @@ CREATE TABLE table2 (
     nseqall VARCHAR (100)
 );
 """
+CreateTable3 = """
+CREATE TABLE table3 (
+    wholine VARCHAR (100),
+    line VARCHAR (100), 
+    ncount VARCHAR (100)
+);
+"""
+makeTableByName = {
+        "maintable" : CreateTable,
+        "table1" : CreateTable1,
+        "table2" : CreateTable2,
+        "table3" : CreateTable3
+    }
+### \TABLE CREATION/ ###
+
 
 
 pieChartLineageCounts = """
@@ -64,6 +81,9 @@ WHERE
     table_name = 'maintable';
 
 """
+
+
+### /INSERTS\ ###
 Insert = """
 INSERT INTO 
     maintable (
@@ -103,23 +123,22 @@ INSERT INTO
         nseqall
     ) 
 VALUES %s"""
-# InsertTable2 = """
-# INSERT INTO 
-#     pieChartLineageCounts (
-#         who,
-#         wholine,
-#         ncount
-#     ) 
-# VALUES %s"""
-InsertTableRegionWHO = """
+InsertTable3 = """
 INSERT INTO 
-    tableRegionWHO (
-        region,
-        who,
-        date,
-        n
-        )
+    table3 (
+        wholine,
+        line,
+        ncount
+    ) 
 VALUES %s"""
+inserTo = {
+        "maintable" : Insert,
+        "table1" : InsertTable1,
+        "table2" : InsertTable2,
+        "table3" : InsertTable3,
+    }
+### \INSERTS/ ###
+
 
 DeleteDuplicates = """
 DELETE   FROM maintable T1

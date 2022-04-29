@@ -1,5 +1,5 @@
 import pandas as pd
-
+import config
 
 
 def chooseWHOlineage(line):
@@ -76,6 +76,7 @@ def agrTab(tab):
     tab[8] = tab.apply(lambda lineage: lineageFromWHOchoice(lineage), axis=1)
     tab[8] = tab[8].apply(lambda ba_x: cropOmicron(ba_x))
     tab[[9, 10, 11]] = pd.DataFrame([dateSplitter(date) for date in tab[1].values.tolist()])
+    tab = tab.loc[(tab[1] != 'None') & (tab[4].isin(config.regions))]
     return tab
 
 
@@ -95,3 +96,31 @@ monthNames = {
     11: '11 Ноябрь',
     12: '12 Декабрь',
     }
+
+
+def shapeTab(data, basename=False):
+    tab = agrTab(data)
+    if basename == 'table1':
+        return tab
+    elif basename == 'table2':
+        return table2agg(tab)
+    elif basename == 'table3':
+        return tab[[7, 8]].value_counts().reset_index()
+        
+
+def table2agg(data):
+    total = data[4].value_counts().reindex(config.regions, fill_value=0).reset_index()
+    partsToConcat = []
+    for who in data[7].drop_duplicates().values:
+        variantTable = data.loc[data[7] == who][4].value_counts().reindex(config.regions, fill_value=0).reset_index()
+        variantTable['selector'] = who
+        partsToConcat.append(variantTable)
+    out = pd.concat(partsToConcat, axis=0)
+    out = out.merge(total, on='index')
+    out['percentage'] = out['4_x'] / out['4_y']
+    out['percentage'] = out['percentage'].map(lambda x: round(x * 100, 2))
+    out = out[['selector', 'index', '4_x', 'percentage', '4_y']]
+    out.columns = ['whoLine', 'Region', 'NseqLine', 'Percentage', 'NseqAll']
+    return out.astype('str')
+
+

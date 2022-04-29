@@ -1,4 +1,4 @@
-import sys, funKit, config, requests, psycopg2, psq
+import sys, funKit, psycopg2, psq
 from tqdm import tqdm
 
 
@@ -24,29 +24,21 @@ class Binder:
         
 
     def doPage(self, sesh, pageNum):
-        try:
             self.loadPage(self.translatePage(self.getPage(sesh, pageNum)))
-        except (Exception, psycopg2.DatabaseError) as error:
-            print("Error: %s" % error)
+
             
-    
     def work(self):
         with funKit.doSesh() as sesh:
             for pageNum in tqdm(range(1, self.pageAmount + 1)):
                 self.doPage(sesh, pageNum)
-        funKit.updateOthers()
+        funKit.updateTables()
+
 
 
 if __name__ == "__main__":
-    try: 
-        bind = Binder()
-        funKit.baseExecute(psq.DropTable)
-        bind.work()
-        # funKit.baseExecute(psq.DeleteDuplicates)
-    except (Exception, psycopg2.DatabaseError) as error:
-        print("Database Drop Error: %s" % error)
-        sys.exit()
-    finally:
-        print("BINGO")
-        sys.exit()
+    bind = Binder()
+    funKit.baseExecute(psq.DropTable)
+    bind.work()
+    # funKit.baseExecute(psq.DeleteDuplicates) #!#!#!#!#!#
+
 
