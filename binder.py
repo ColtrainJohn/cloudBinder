@@ -28,6 +28,7 @@ class Binder:
 
             
     def work(self):
+        funKit.baseExecute(psq.DropTable)
         with funKit.doSesh() as sesh:
             for pageNum in tqdm(range(1, self.pageAmount + 1)):
                 self.doPage(sesh, pageNum)
@@ -37,7 +38,6 @@ class Binder:
 
 if __name__ == "__main__":
     bind = Binder()
-    funKit.baseExecute(psq.DropTable)
     bind.work()
     # funKit.baseExecute(psq.DeleteDuplicates) #!#!#!#!#!#
 

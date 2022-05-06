@@ -32,11 +32,12 @@ CREATE TABLE table1 (
 """
 CreateTable2 = """
 CREATE TABLE table2 (
-    wholine VARCHAR (100),
+    year VARCHAR (100),
     region VARCHAR (100), 
-    nseqline VARCHAR (100), 
-    percentage VARCHAR (100),
-    nseqall VARCHAR (100)
+    who VARCHAR (100),
+    counts VARCHAR (100),
+    percent VARCHAR (100),
+    total VARCHAR (100)
 );
 """
 CreateTable3 = """
@@ -116,11 +117,12 @@ VALUES %s"""
 InsertTable2 = """
 INSERT INTO 
     table2 (
-        wholine,
+        year,
         region,
-        nseqline,
-        percentage,
-        nseqall
+        who,
+        counts,
+        percent,
+        total
     ) 
 VALUES %s"""
 InsertTable3 = """

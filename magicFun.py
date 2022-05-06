@@ -123,4 +123,17 @@ def table2agg(data):
     out.columns = ['whoLine', 'Region', 'NseqLine', 'Percentage', 'NseqAll']
     return out.astype('str')
 
-
+def table2agg(data):
+    totals = data[[4, 9]].value_counts().reindex(pd.MultiIndex.from_product([config.regions, [2020, 2021, 2022]]), fill_value=0).reset_index()
+    totals.columns = ['Region', 'Year', 'Total']
+    partsToConcat = []
+    for who in data[7].drop_duplicates().values:
+        variantTable = data.loc[data[7] == who][[4, 9]].value_counts().reindex(pd.MultiIndex.from_product([config.regions, [2020,2021,2022]]), fill_value=0).reset_index()
+        variantTable['selector'] = who
+        partsToConcat.append(variantTable)
+    out = pd.concat(partsToConcat, axis=0)
+    out.columns = ['Region', 'Year', 'Ncounts', 'selector']
+    out = out.merge(totals)
+    out['percentage'] = out['Ncounts'] / out['Total']
+    out['percentage'] = out['percentage'].map(lambda x: round(x * 100, 2))
+    return out[['Year', 'Region', 'selector', 'Ncounts', 'percentage', 'Total']].astype('str')
