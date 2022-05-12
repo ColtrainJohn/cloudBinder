@@ -16,7 +16,7 @@ binder = Binder()
 schedule.every().day.at("00:00").do(job, binder)
 schedule.every().day.at("12:00").do(job, binder)
 
-while pd.to_datetime('today') < pd.to_datetime('2022-05-08'):
+while pd.to_datetime('today') < pd.to_datetime('2022-05-21'):
     schedule.run_pending()
     time.sleep(60)
 
