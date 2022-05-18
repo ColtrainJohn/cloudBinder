@@ -124,11 +124,12 @@ def table2agg(data):
     return out.astype('str')
 
 def table2agg(data):
-    totals = data[[4, 9]].value_counts().reindex(pd.MultiIndex.from_product([config.regions, [2020, 2021, 2022]]), fill_value=0).reset_index()
+    years = list(range(2020, pd.to_datetime('today').year + 1, 1))
+    totals = data[[4, 9]].value_counts().reindex(pd.MultiIndex.from_product([config.regions, years]), fill_value=0).reset_index()
     totals.columns = ['Region', 'Year', 'Total']
     partsToConcat = []
     for who in data[7].drop_duplicates().values:
-        variantTable = data.loc[data[7] == who][[4, 9]].value_counts().reindex(pd.MultiIndex.from_product([config.regions, [2020,2021,2022]]), fill_value=0).reset_index()
+        variantTable = data.loc[data[7] == who][[4, 9]].value_counts().reindex(pd.MultiIndex.from_product([config.regions, years]), fill_value=0).reset_index()
         variantTable['selector'] = who
         partsToConcat.append(variantTable)
     out = pd.concat(partsToConcat, axis=0)
