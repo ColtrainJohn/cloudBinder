@@ -64,18 +64,20 @@ def dateSplitter(date):
             week = 1
         week = '0' + str(week) if len(str(week)) == 1 else str(week)
         week = f'{week} неделя'
+        monthYear = str(year) + ' ' + str(month)
     except:
         year = 'Неизвестно'
         month = 'Неизвестно'
         week = 'Неизвестно'
-    return year, month, week
+        monthYear = 'Неизвестно'
+    return year, month, week, monthYear
 
 
 def agrTab(tab):
     tab[7] = tab.apply(lambda variant: chooseWHOlineage(variant), axis=1)
     tab[8] = tab.apply(lambda lineage: lineageFromWHOchoice(lineage), axis=1)
     tab[8] = tab[8].apply(lambda ba_x: cropOmicron(ba_x))
-    tab[[9, 10, 11]] = pd.DataFrame([dateSplitter(date) for date in tab[1].values.tolist()])
+    tab[[9, 10, 11, 12]] = pd.DataFrame([dateSplitter(date) for date in tab[1].values.tolist()])
     tab = tab.loc[(tab[1] != 'None') & (tab[4].isin(config.regions))]
     return tab
 

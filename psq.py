@@ -11,7 +11,8 @@ CREATE TABLE maintable (
     federal VARCHAR (100),
     region VARCHAR (100), 
     pango VARCHAR (100), 
-    parus VARCHAR (100)
+    parus VARCHAR (100),
+    seqArea VARCHAR (100)
     );
 """
 CreateTable1 = """
@@ -27,7 +28,8 @@ CREATE TABLE table1 (
     whoLine VARCHAR (100),
     year VARCHAR (100),
     month VARCHAR (100),
-    week VARCHAR (100)
+    week VARCHAR (100),
+    monthYear VARCHAR (100)
     );
 """
 CreateTable2 = """
@@ -94,7 +96,8 @@ INSERT INTO
         federal,
         region,
         pango,
-        parus
+        parus,
+        seqArea
     ) 
 VALUES %s"""
 InsertTable1 = """
@@ -111,7 +114,8 @@ INSERT INTO
         whoLine,
         year,
         month,
-        week
+        week,
+        monthYear
     ) 
 VALUES %s"""
 InsertTable2 = """

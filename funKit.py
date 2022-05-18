@@ -71,59 +71,6 @@ def getBase(basename='maintable'):
     return pd.DataFrame(baseExecute(f'SELECT * FROM {basename};', fetch=True))
 ### \DATABASE MANUPULATIONS/ ###
 
-
-
-### /TABLE CONNECTIONS\ ###
-# def doTable1():
-#     tab = magicFun.agrTab(getBase())
-#     pageTuples = [tuple(x) for x in tab.to_numpy()]
-#     conn = psycopg2.connect(**config.DBparam)
-#     try:
-#         with conn:
-#             with conn.cursor() as cursor:
-#                 cursor.execute("DELETE FROM table1;")
-#         with conn:
-#             with conn.cursor() as cursor:
-#                 extras.execute_values(cursor, psq.InsertTable1, pageTuples, page_size=1000)
-#     except (Exception, psycopg2.DatabaseError) as error:
-#         print("Error: %s" % error)
-#     finally:
-#         conn.close()
-
-
-# def doTable2():
-#     tab = magicFun.variantRegionsTable(magicFun.agrTab(getBase()))
-#     pageTuples = [tuple(x) for x in tab.to_numpy()]
-#     conn = psycopg2.connect(**config.DBparam)
-#     try:
-#         with conn:
-#             with conn.cursor() as cursor:
-#                 cursor.execute("DELETE FROM table2;")
-#         with conn:
-#             with conn.cursor() as cursor:
-#                 extras.execute_values(cursor, psq.InsertTable2, pageTuples, page_size=1000)
-#     except (Exception, psycopg2.DatabaseError) as error:
-#         print("Error: %s" % error)
-#     finally:
-#         conn.close()
-
-        
-# def doTable3():
-#     data = magicFun.agrTab(getBase())[[7, 8]].value_counts().reset_index()
-#     pageTuples = [tuple(x) for x in data.to_numpy()]
-#     conn = psycopg2.connect(**config.DBparam)
-#     try:
-#         with conn:
-#             with conn.cursor() as cursor:
-#                 cursor.execute("DELETE FROM table3;")
-#         with conn:
-#             with conn.cursor() as cursor:
-#                 extras.execute_values(cursor, psq.InsertTable3, pageTuples, page_size=1000)
-#     except (Exception, psycopg2.DatabaseError) as error:
-#         print("Error: %s" % error)
-#     finally:
-#         conn.close()
-        
         
 def updateTable(basename):
     data = magicFun.shapeTab(getBase(), basename)

@@ -51,6 +51,7 @@ def parseMetaJson(meta):
     except TypeError:
         parus = 'None'
 
+
     out = [
         seqId,
         collectionDate,
@@ -59,6 +60,7 @@ def parseMetaJson(meta):
         region, 
         pangoNew,
         parus,
+        seqArea
         ]
     
     return out
