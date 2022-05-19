@@ -12,18 +12,18 @@ DBparam = {
         }
 
 
-columnSourceNames = [
-    "internal_number",
-    "formValue.sample_pick_date.value",
-    "pangolinResult.lineage",
-    "parusResult.foundType.name",
-    "file.created_at",
-    ]
+# columnSourceNames = [
+#     "internal_number",
+#     "formValue.sample_pick_date.value",
+#     "pangolinResult.lineage",
+#     "parusResult.foundType.name",
+#     "file.created_at",
+#     ]
 
-geoLoc = [
-    "federalDistrict.name_ru",
-    "region.name_ru"
-        ]
+# geoLoc = [
+#     "federalDistrict.name_ru",
+#     "region.name_ru"
+#         ]
 
 colToCol = {
         "internal_number" : "vgarusId",

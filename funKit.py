@@ -1,7 +1,6 @@
 import requests, psycopg2, config, psq, magicFun
 import pandas as pd
 from math import ceil # ?
-from parseMeta import parseMetaJson
 import psycopg2.extras as extras
 
 
@@ -26,7 +25,7 @@ def takeCloudJson(sesh, pageNum):
 
 
 def translate(rawJson):
-    translation = pd.DataFrame([parseMetaJson(line) for line in rawJson]).astype('str')
+    translation = pd.DataFrame([magicFun.parseMetaJson(line) for line in rawJson]).astype('str')
     pageTuples = [tuple(x) for x in translation.to_numpy()]
     return pageTuples
 
@@ -69,7 +68,6 @@ def restartBase(basename='maintable'):
 
 def getBase(basename='maintable'):
     return pd.DataFrame(baseExecute(f'SELECT * FROM {basename};', fetch=True))
-### \DATABASE MANUPULATIONS/ ###
 
         
 def updateTable(basename):
@@ -77,11 +75,14 @@ def updateTable(basename):
     pageTuples = [tuple(x) for x in data.to_numpy()]
     baseExecute(f'DELETE FROM {basename};')
     putToDatabase(pageTuples, basename)
-### \TABLE CONNECTIONS/ ###
 
 
 def updateTables(tables=['table1', 'table2', 'table3']):
     for each in tables:
         updateTable(each)
         print(each)
+### \DATABASE MANUPULATIONS/ ###
+
+
+
 
