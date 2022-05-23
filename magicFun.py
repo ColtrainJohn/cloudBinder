@@ -52,6 +52,16 @@ def parseMetaJson(meta):
         parus = meta['result']['name']
     except TypeError:
         parus = 'None'
+    if parus.find('BA.') > -1 or parus.find('Omicron') > -1 or pangoNew.find('BA.') > -1 or pangoNew.find('Omicron') > -1:
+        if collectionDate != 'None' and pd.to_datetime(collectionDate) <= pd.to_datetime('2021-06-01'):
+            collectionDate = '2022-' + '-'.join(str(collectionDate).split()[0].split('-')[1:])
+
+
+    if parus.find('AY.') > -1 or parus.find('Delta.') > -1 or pangoNew.find('AY.') > -1 or pangoNew.find('Delta.') > -1 or pangoNew.find('B.1.617.2'):
+        if collectionDate != 'None' and pd.to_datetime(collectionDate) <= pd.to_datetime('2021-01-01'):
+            collectionDate = '2021-' + '-'.join(str(collectionDate).split()[0].split('-')[1:])
+
+
 
 
     out = [
