@@ -12,30 +12,6 @@ DBparam = {
         }
 
 
-# columnSourceNames = [
-#     "internal_number",
-#     "formValue.sample_pick_date.value",
-#     "pangolinResult.lineage",
-#     "parusResult.foundType.name",
-#     "file.created_at",
-#     ]
-
-# geoLoc = [
-#     "federalDistrict.name_ru",
-#     "region.name_ru"
-#         ]
-
-colToCol = {
-        "internal_number" : "vgarusId",
-        "formValue.sample_pick_date.value" : "pickDate",
-        "file.created_at" : "loadDate",
-        "federalDistrict.name_ru" : "federal",
-        "region.name_ru" : "region",
-        "pangolinResult.lineage" : "pango",
-        "parusResult.foundType.name" : "parus"
-        }
-
-
 regions = [
  'Алтайский край',
  'Амурская область',

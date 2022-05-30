@@ -1,5 +1,4 @@
 import sys, funKit, psycopg2, psq, schedule, time
-from tqdm import tqdm
 import pandas as pd
 
 
@@ -25,35 +24,16 @@ class Binder:
         
 
     def doPage(self, sesh, pageNum):
-            self.loadPage(self.translatePage(self.getPage(sesh, pageNum)))
-
-            
-    # def work(self):
-    #     funKit.baseExecute(psq.DropTable)
-    #     with funKit.doSesh() as sesh:
-    #         for pageNum in tqdm(range(1, self.pageAmount + 1)):
-    #             self.doPage(sesh, pageNum)
-    #     funKit.updateTables()
+        self.loadPage(self.translatePage(self.getPage(sesh, pageNum)))
 
 
     def workAct(self):
-        try:
-            funKit.baseExecute(psq.DropTable)
-            with funKit.doSesh() as sesh:
-                for pageNum in tqdm(range(1, self.pageAmount + 1)):
-                    self.doPage(sesh, pageNum)
-            funKit.updateTables()
-            with open('log_schedule', 'a') as log:
-                log.write(str(pd.to_datetime('today')) + '\n')
-        except Exception as error:
-            with open('log_schedule', 'a') as log:
-                log.write(str(pd.to_datetime('today')) + '\n' + str(error))
-                
+        funKit.workAct(self.pageAmount, self.volume, self.doPage)                
 
     def work(self):
         schedule.every().day.at("00:00").do(self.workAct)
         schedule.every().day.at("12:00").do(self.workAct)
-        while pd.to_datetime('today') < pd.to_datetime('2022-05-21'):
+        while pd.to_datetime('today') < pd.to_datetime('2022-05-29'):
             schedule.run_pending()
             time.sleep(60)
         
@@ -63,5 +43,4 @@ class Binder:
 if __name__ == "__main__":
     bind = Binder()
     bind.workAct()
-    # funKit.baseExecute(psq.DeleteDuplicates) #!#!#!#!#!#
 

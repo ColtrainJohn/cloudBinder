@@ -1,6 +1,7 @@
-import requests, psycopg2, config, psq, magicFun
+import requests, psycopg2, config, psq, magicFun, tqdm
 import pandas as pd
 from math import ceil # ?
+from tqdm import tqdm
 import psycopg2.extras as extras
 
 
@@ -40,6 +41,24 @@ def putToDatabase(pageTuples, basename='maintable'):
         print("Error: %s" % error)
     finally:
         conn.close()
+
+
+def workAct(pageAmount, volume, fun):
+    date = str(pd.to_datetime('today'))
+    try:
+        baseExecute(psq.DropTable)
+        with doSesh() as sesh:
+            for page in tqdm(range(1, pageAmount + 1)):
+                fun(sesh, page)
+        updateTables()
+        with open('log_schedule', 'a') as log:
+            log.write(date + '\t' + str(volume) + '\n')
+    except Exception as error:
+        with open('log_schedule', 'a') as log:
+            log.write(date + '\t' + str(error) + '\n')  
+
+
+
 ### \CORE FUNCTIONS/ ###
 
 
