@@ -33,11 +33,15 @@ class Binder:
     def work(self):
         schedule.every().day.at("00:00").do(self.workAct)
         schedule.every().day.at("12:00").do(self.workAct)
-        while pd.to_datetime('today') < pd.to_datetime('2022-05-29'):
-            schedule.run_pending()
-            time.sleep(60)
-        
-
+        while pd.to_datetime('today') < pd.to_datetime('2022-07-01'):
+            with open('button.txt', 'r') as f:
+                shouldWork = int(f.read()[0])
+            if shouldWork == True:
+                schedule.run_pending()
+                time.sleep(60)
+            else:
+                break
+        return 'Finished at ' + str(pd.to_datetime('now'))
 
 
 if __name__ == "__main__":

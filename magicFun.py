@@ -155,7 +155,7 @@ def agrTab(tab):
     tab[8] = tab.apply(lambda lineage: lineageFromWHOchoice(lineage), axis=1)
     tab[8] = tab[8].apply(lambda ba_x: cropOmicron(ba_x))
     tab[[9, 10, 11, 12]] = pd.DataFrame([dateSplitter(date) for date in tab[1].values.tolist()])
-    tab = tab.loc[(tab[1] != 'None') & (tab[4].isin(config.regions))]
+    tab = tab.loc[(tab[1] != 'None') & (tab[4].isin(config.regions)) & (tab[3] != None)]
     return tab
 
 
