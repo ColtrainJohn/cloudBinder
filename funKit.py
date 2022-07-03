@@ -46,7 +46,7 @@ def putToDatabase(pageTuples, basename='maintable'):
 def workAct(pageAmount, volume, fun):
     date = str(pd.to_datetime('today'))
     try:
-        baseExecute(psq.DropTable)
+        restartBase('maintable')
         with doSesh() as sesh:
             for page in tqdm(range(1, pageAmount + 1)):
                 fun(sesh, page)
@@ -100,8 +100,14 @@ def updateTables(tables=['table1', 'table2', 'table3']):
     for each in tables:
         updateTable(each)
         print(each)
+
+def dateUpdate():
+    restartBase('updatedate')
+    command = psq.InsertUpdateDate % "('" + str(pd.to_datetime('now')).split()[0] + "')"
+    #command = psq.InsertUpdateDate % '(' + '10.02.2022' + ')'
+    print(command)
+    baseExecute(command)
+            
+            
+
 ### \DATABASE MANUPULATIONS/ ###
-
-
-
-

@@ -10,7 +10,16 @@ DBparam = {
             "port" : 6432,
             "dbname" : "datalens"
         }
-
+columnNames = [
+    "id",
+    "pickdate",
+    "seqdate",
+    "federal",
+    "region",
+    "pangoline",
+    "parusline",
+    "seqarea"   
+]
 
 regions = [
  'Алтайский край',

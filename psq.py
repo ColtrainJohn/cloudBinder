@@ -12,8 +12,9 @@ CREATE TABLE maintable (
     region VARCHAR (100), 
     pango VARCHAR (100), 
     parus VARCHAR (100),
-    seqArea VARCHAR (100)
-    );
+    seqArea VARCHAR (100),
+    org VARCHAR (100)
+);
 """
 CreateTable1 = """
 CREATE TABLE table1 (
@@ -30,7 +31,7 @@ CREATE TABLE table1 (
     month VARCHAR (100),
     week VARCHAR (100),
     monthYear VARCHAR (100)
-    );
+);
 """
 CreateTable2 = """
 CREATE TABLE table2 (
@@ -49,11 +50,24 @@ CREATE TABLE table3 (
     ncount VARCHAR (100)
 );
 """
+CreateUpdateDate = """
+CREATE TABLE updatedate(
+    date VARCHAR (100)
+);
+"""
+CreateSupportTable = """
+    CREATE TABLE tech(
+        loaddate VARCHAR (100),
+        seqorg VARCHAR (100)
+    )
+"""
 makeTableByName = {
         "maintable" : CreateTable,
         "table1" : CreateTable1,
         "table2" : CreateTable2,
-        "table3" : CreateTable3
+        "table3" : CreateTable3,
+        "updatedate" : CreateUpdateDate,
+        "tech" : CreateSupportTable
     }
 ### \TABLE CREATION/ ###
 
@@ -97,9 +111,11 @@ INSERT INTO
         region,
         pango,
         parus,
-        seqArea
+        seqArea,
+        org
     ) 
-VALUES %s"""
+VALUES %s
+"""
 InsertTable1 = """
 INSERT INTO 
     table1 (
@@ -117,7 +133,8 @@ INSERT INTO
         week,
         monthYear
     ) 
-VALUES %s"""
+VALUES %s
+"""
 InsertTable2 = """
 INSERT INTO 
     table2 (
@@ -128,7 +145,8 @@ INSERT INTO
         percent,
         total
     ) 
-VALUES %s"""
+VALUES %s
+"""
 InsertTable3 = """
 INSERT INTO 
     table3 (
@@ -136,12 +154,29 @@ INSERT INTO
         line,
         ncount
     ) 
-VALUES %s"""
+VALUES %s
+"""
+InsertUpdateDate = """
+INSERT INTO 
+    updatedate (
+        date
+    )
+VALUES %s
+"""
+InsertSupportTable = """
+INSERT INTO tech (
+        loaddate,
+        seqorg
+    )
+VALUES %s
+"""
 inserTo = {
         "maintable" : Insert,
         "table1" : InsertTable1,
         "table2" : InsertTable2,
         "table3" : InsertTable3,
+        "updatedate" : InsertUpdateDate,
+        "tech" : InsertSupportTable
     }
 ### \INSERTS/ ###
 
